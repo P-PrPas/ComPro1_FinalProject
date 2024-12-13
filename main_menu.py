@@ -13,6 +13,8 @@ class Menu:
         self.canvas_height = turtle.screensize()[1]
         self.currency = 0
         self.stage_clear = 0
+        self.level = 1
+        self.num_balls = 1
         self.button_list = []
 
     def get_currency(self):
@@ -32,9 +34,26 @@ class Menu:
             self.currency += 1
             self.stage_clear += 1
 
+    def random_num_balls(self):
+        if self.stage_clear <= 2:
+            self.num_balls = random.randint(1, 3)
+        elif self.stage_clear > 2 and self.stage_clear <= 5:
+            self.num_balls = random.randint(2, 5)
+        else:
+            self.num_balls = random.randint(3, 10)
+
+    def consider_level(self):
+        if self.stage_clear <= 2:
+            self.level = 1
+        elif self.stage_clear > 2 and self.stage_clear <= 5:
+            self.level = 2
+        else:
+            self.level = 3
+
     def start_game(self):
-        num_balls = 2
-        my_Game = perfect_pitch.PerfectPitch(num_balls)
+        self.consider_level()
+        self.random_num_balls()
+        my_Game = perfect_pitch.PerfectPitch(self.num_balls, self.level, self.stage_clear)
         game_result = my_Game.run()
         self.update_currency_and_stage(game_result)
         self.show_menu()
@@ -78,6 +97,7 @@ class Menu:
         turtle.penup()
         turtle.hideturtle()
         turtle.goto(-350, 350)
+        turtle.color("black")
         turtle.write(f"Stage Clear: {self.stage_clear}", align="center", font=("Arial", 16, "normal"))
         turtle.goto(350, 350)
         turtle.write(f"Coins: {self.currency}", align="center", font=("Arial", 16, "normal"))

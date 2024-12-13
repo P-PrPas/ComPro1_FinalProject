@@ -9,8 +9,10 @@ import time
 
 
 class PerfectPitch:
-    def __init__(self, num_balls):
+    def __init__(self, num_balls, level, stage):
         self.num_balls = num_balls
+        self.level = level # level 1 = C major scale, level 2 = Chromatics scale, level 3 = Chromatics scale and octave
+        self.stage = stage + 1
         self.ball_list = []
         self.status_message = ""
         self.status_message_time = 0
@@ -102,10 +104,12 @@ class PerfectPitch:
                            "color": (255, 215, 0),
                            "note": "Sound/5B.wav"}
                           ]
+        self.available_note_index = []
+
 
         self.button_list = []
 
-        self.create_balls(num_balls)
+        self.create_balls()
         self.create_buttons()
         # Check all the balls
         '''for a in self.ball_list:
@@ -118,9 +122,21 @@ class PerfectPitch:
     def checking_game_status(self):
         return self.game_result
 
-    def create_balls(self, num_balls):
-        for i in range(num_balls):
-            ball_data = random.choice(self.note_data)
+    def level_checking(self):
+        if self.level == 1:
+            return [0, 2, 4, 5, 7, 9, 11]
+        elif self.level == 2:
+            return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+        else:
+            return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+
+    def create_balls(self):
+        available_note = []
+        self.available_note_index = self.level_checking()
+        for i in self.available_note_index:
+            available_note.append(self.note_data[i])
+        for i in range(self.num_balls):
+            ball_data = random.choice(available_note)
             radius = 0.05 * self.canvas_width
             x = -self.canvas_width + (i + 1) * (2 * self.canvas_width / (self.num_balls + 1))
             y = 0.0
@@ -128,8 +144,7 @@ class PerfectPitch:
             vy = 10 * random.uniform(-1.0, 1.0)
             ball = harmonic_ball.Ball(radius, x, y, vx, vy, ball_data["color"], ball_data["note"], ball_data["label"])
             self.ball_list.append(ball)
-        self.answer = len(self.ball_list) + 1
-
+        self.answer = len(self.ball_list)
     def create_buttons(self):
         button_width = 50
         button_height = 30
@@ -147,7 +162,6 @@ class PerfectPitch:
     def handle_button_click(self, color):
         if color in [ball.get_color() for ball in self.ball_list]:
             self.score += 1
-            self.answer -= 1
             self.status_message = "Correct!"
             balls_to_remove = [ball for ball in self.ball_list if color == ball.get_color()]
             button_to_remove = [button for button in self.button_list if button.color == color]
@@ -157,6 +171,7 @@ class PerfectPitch:
             for button in button_to_remove:
                 self.button_list.remove(button)
             self.__redraw()
+            self.answer = len(self.ball_list)
         else:
             a = [ball.get_color() for ball in self.ball_list]
             print(color, a)
@@ -167,9 +182,9 @@ class PerfectPitch:
                 self.game_end = True
                 turtle.clear()
                 turtle.penup()
-                turtle.goto(0, self.canvas_height // 3)
-                turtle.color("black")
-                turtle.write("Game Over!!", align="center", font=("Arial", 14, "bold"))
+                turtle.goto(0, 0)
+                turtle.color("red")
+                turtle.write("Game Over!!", align="center", font=("Arial", 40, "bold"))
                 turtle.update()
                 time.sleep(2)
         self.status_message_time = time.time()
@@ -213,6 +228,12 @@ class PerfectPitch:
         turtle.goto(-self.canvas_width, self.canvas_height + 40)
         turtle.color("black")
         turtle.write(f"Score: {self.score}   Lives: {self.lives}", font=("Arial", 16, "bold"))
+
+        # Draw the Stage
+        turtle.penup()
+        turtle.goto(self.canvas_width - 100, self.canvas_height + 40)
+        turtle.color("black")
+        turtle.write(f"Stage: {self.stage}", font=("Arial", 16, "bold"))
 
         # Status of Answer (Correct or Wrong)
         if self.status_message and time.time() - self.status_message_time < 1:  # Show for 1 second
@@ -267,14 +288,14 @@ class PerfectPitch:
 
             self.__predict(ball_a)
             self.__predict(ball_b)
-            if self.answer < self.score:
+            if self.answer == 0:
                 self.game_result = True
                 self.game_end = True
                 turtle.clear()
                 turtle.penup()
                 turtle.goto(0, 0)
                 turtle.color("black")
-                turtle.write("You Win!!", align="center", font=("Arial", 14, "bold"))
+                turtle.write("You Win!!", align="center", font=("Arial", 40, "bold"))
                 turtle.update()
                 time.sleep(2)
 
