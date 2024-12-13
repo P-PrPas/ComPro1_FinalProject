@@ -74,13 +74,13 @@ class Menu:
 
     def show_menu(self):
         turtle.clear()
+        turtle.tracer(0)
         turtle.penup()
         turtle.hideturtle()
         turtle.goto(-350, 350)
         turtle.write(f"Stage Clear: {self.stage_clear}", align="center", font=("Arial", 16, "normal"))
         turtle.goto(350, 350)
         turtle.write(f"Coins: {self.currency}", align="center", font=("Arial", 16, "normal"))
-
 
         turtle.goto(0, 200)
         turtle.write("Main Menu", align="center", font=("Arial", 24, "bold"))
@@ -90,6 +90,8 @@ class Menu:
         turtle.write("2: Instructions", align="center", font=("Arial", 18, "normal"))
         turtle.goto(0, 50)
         turtle.write("Press the corresponding number.", align="center", font=("Arial", 18, "normal"))
+        turtle.update()
+
         turtle.onkey(self.start_game, "1")
         turtle.onkey(self.show_instructions, "2")
         turtle.listen()
