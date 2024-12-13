@@ -27,20 +27,17 @@ class Menu:
     def get_stage_clear(self, new_stage_clear):
         self.stage_clear = new_stage_clear
 
+    def update_currency_and_stage(self, result):
+        if result:
+            self.currency += 1
+            self.stage_clear += 1
+
     def start_game(self):
         num_balls = 2
         my_Game = perfect_pitch.PerfectPitch(num_balls)
-        my_Game.run()
-        while True:
-            game_result = my_Game.checking_game_ending()
-            if game_result:
-                break
-        if game_result:
-            self.currency += 1
-            self.stage_clear += 1
-            self.show_menu()
-        else:
-            self.show_menu()
+        game_result = my_Game.run()
+        self.update_currency_and_stage(game_result)
+        self.show_menu()
 
     def show_instructions(self):
         turtle.clear()

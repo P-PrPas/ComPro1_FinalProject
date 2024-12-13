@@ -243,7 +243,7 @@ class PerfectPitch:
         for i in range(len(self.ball_list)):
             self.__predict(self.ball_list[i])
         heapq.heappush(self.pq, event.Event(0, None, None))
-        while (True):
+        while not self.game_end:
             e = heapq.heappop(self.pq)
             if not e.is_valid():
                 continue
@@ -278,9 +278,8 @@ class PerfectPitch:
                 turtle.update()
                 time.sleep(2)
 
-
-        # hold the window; close it by clicking the window close 'x' mark
-        turtle.done()
+        #turtle.done()
+        return self.game_result
 
 if __name__ == "__main__":
     num_balls = 2
