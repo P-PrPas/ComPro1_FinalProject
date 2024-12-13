@@ -105,6 +105,7 @@ class PerfectPitch:
                            "note": "Sound/5B.wav"}
                           ]
         self.available_note_index = []
+        self.available_note = []
 
 
         self.button_list = []
@@ -131,12 +132,12 @@ class PerfectPitch:
             return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
 
     def create_balls(self):
-        available_note = []
+        self.available_note = []
         self.available_note_index = self.level_checking()
         for i in self.available_note_index:
-            available_note.append(self.note_data[i])
+            self.available_note.append(self.note_data[i])
         for i in range(self.num_balls):
-            ball_data = random.choice(available_note)
+            ball_data = random.choice(self.available_note)
             radius = 0.05 * self.canvas_width
             x = -self.canvas_width + (i + 1) * (2 * self.canvas_width / (self.num_balls + 1))
             y = 0.0
@@ -148,11 +149,19 @@ class PerfectPitch:
     def create_buttons(self):
         button_width = 50
         button_height = 30
-        gap = 25
-        start_x = -self.canvas_width - gap/2
-        start_y = -self.canvas_height - 2*gap
-
-        for i, note in enumerate(self.note_data[:12]):
+        if self.level == 1:
+            gap = 40
+            start_x = -self.canvas_width + 185 - gap
+            start_y = -self.canvas_height - gap - 13
+        else:
+            gap = 25
+            start_x = -self.canvas_width - gap / 2
+            start_y = -self.canvas_height - 2 * gap
+        if self.level == 3:
+            available_pad = self.available_note[:12]
+        else:
+            available_pad = self.available_note
+        for i, note in enumerate(available_pad):
             x = start_x + i * (button_width + gap)
             button = Button(x, start_y, button_width, button_height, note["label"], note["color"],
                             self.handle_button_click)
