@@ -1,6 +1,7 @@
 import harmonic_ball
 import turtle
 import perfect_pitch
+import intervals
 import random
 import heapq
 import event
@@ -13,6 +14,7 @@ class Menu:
         self.canvas_height = turtle.screensize()[1]
         self.currency = 0
         self.stage_clear = 0
+        self.intervals_stage_clear = 0
         self.level = 1
         self.num_balls = 1
         self.button_list = []
@@ -29,10 +31,15 @@ class Menu:
     def get_stage_clear(self, new_stage_clear):
         self.stage_clear = new_stage_clear
 
-    def update_currency_and_stage(self, result):
+    def update_currency_and_stage(self, result, mode):
         if result:
-            self.currency += 1
-            self.stage_clear += 1
+            if mode == "Perfect Pitch":
+                self.currency += 1
+                self.stage_clear += 1
+            else:
+                self.currency += 1
+                self.intervals_stage_clear += 1
+
 
     def random_num_balls(self):
         if self.stage_clear+1 <= 2:
@@ -42,62 +49,182 @@ class Menu:
         else:
             self.num_balls = random.randint(3, 10)
 
-    def consider_level(self):
-        if self.stage_clear+1 <= 2:
-            self.level = 1
-        elif self.stage_clear+1 > 2 and self.stage_clear+1 <= 5:
-            self.level = 2
-        elif self.stage_clear+1 > 5 and self.stage_clear+1 <= 7:
-            self.level = 3
-        elif self.stage_clear+1 > 7 and self.stage_clear+1 <= 10:
-            self.level = 4
-        elif self.stage_clear+1 > 10 and self.stage_clear+1 <= 13:
-            self.level = 5
+    def consider_level(self, mode):
+        if mode == "Perfect Pitch":
+            if self.stage_clear + 1 <= 2:
+                self.level = 1
+            elif self.stage_clear + 1 > 2 and self.stage_clear + 1 <= 5:
+                self.level = 2
+            elif self.stage_clear + 1 > 5 and self.stage_clear + 1 <= 7:
+                self.level = 3
+            elif self.stage_clear + 1 > 7 and self.stage_clear + 1 <= 10:
+                self.level = 4
+            elif self.stage_clear + 1 > 10 and self.stage_clear + 1 <= 13:
+                self.level = 5
+            else:
+                self.level = 6
         else:
-            self.level = 6
+            if self.intervals_stage_clear + 1 <= 2:
+                self.level = 1
+            elif self.intervals_stage_clear + 1 > 2 and self.intervals_stage_clear + 1 <= 5:
+                self.level = 2
+            elif self.intervals_stage_clear + 1 > 5 and self.intervals_stage_clear + 1 <= 7:
+                self.level = 3
+            elif self.intervals_stage_clear + 1 > 7 and self.intervals_stage_clear + 1 <= 10:
+                self.level = 4
+            elif self.intervals_stage_clear + 1 > 10 and self.intervals_stage_clear + 1 <= 13:
+                self.level = 5
+            else:
+                self.level = 6
+
+    def clear_binding(self):
+        turtle.onkey(None, "1")
+        turtle.onkey(None, "2")
+        turtle.onkey(None, "3")
+        turtle.onkey(None, "m")
+        turtle.onkey(None, "n")
+        turtle.onkey(None, "a")
+        turtle.onkey(None, "b")
 
     def start_game(self):
-        self.consider_level()
+        self.clear_binding()
+        self.consider_level("Perfect Pitch")
         self.random_num_balls()
         my_Game = perfect_pitch.PerfectPitch(self.num_balls, self.level, self.stage_clear)
         game_result = my_Game.run()
-        self.update_currency_and_stage(game_result)
+        self.update_currency_and_stage(game_result, "Perfect Pitch")
+        self.show_menu()
+        
+    def start_intervals_game(self):
+        self.clear_binding()
+        self.consider_level("Intervals")
+        self.random_num_balls()
+        my_Game = intervals.Intervals(self.level, self.intervals_stage_clear)
+        game_result = my_Game.run()
+        self.update_currency_and_stage(game_result, "Intervals")
         self.show_menu()
 
-    def show_instructions(self):
+    def show_perfect_pitch_instructions(self):
+        self.clear_binding()
         turtle.clear()
         turtle.penup()
         turtle.hideturtle()
-        turtle.goto(0, 200)
-        turtle.write("Instructions", align="center", font=("Arial", 24, "bold"))
-        turtle.goto(0, 150)
-        turtle.write("The main goal of this game is to practice ear training,", align="center",
-                     font=("Arial", 18, "normal"))
-        turtle.goto(0, 115)
-        turtle.write("which is an essential ability for musicians.", align="center",
-                     font=("Arial", 18, "normal"))
-        turtle.goto(0, 65)
-        turtle.write("By the way, to win our game, you must use your hearing talents.", align="center",
-                     font=("Arial", 18, "normal"))
-        turtle.goto(0, 30)
-        turtle.write("To distinguish sounds based on the following questions.", align="center",
-                     font=("Arial", 18, "normal"))
-        turtle.goto(0, -20)
-        turtle.write("Perfect Pitch: In this game mode, the ball is released and bounces within a specific frame.", align="center",
-                     font=("Arial", 17, "normal"))
-        turtle.goto(0, -55)
-        turtle.write("The ball produces a sound if it strikes a wall or collides with another ball.", align="center",
-                     font=("Arial", 18, "normal"))
-        turtle.goto(0, -90)
-        turtle.write("Your job is to figure out what note the sound is.", align="center",
-                     font=("Arial", 18, "normal"))
+        turtle.goto(0, 325)
+        turtle.write("Perfect Pitch Instructions", align="center", font=("Arial", 24, "bold"))
+        turtle.goto(-300, 275)
+        turtle.write("Objective", align="center",
+                     font=("Arial", 20, "bold"))
+        turtle.goto(25, 235)
+        turtle.write("Identify the musical notes produced by the bouncing balls within the box.", align="center",
+                     font=("Arial", 16, "normal"))
+        turtle.goto(-300, 185)
+        turtle.write("How to Play", align="center",
+                     font=("Arial", 20, "bold"))
+        turtle.goto(25, 100)
+        turtle.write("- Watch the screen as balls bounce inside the box.\n"
+                     "- Each time a ball hits a wall or another ball, it will produce a musical note.\n"
+                     "- Listen carefully to identify the notes being played.", align="center",
+                     font=("Arial", 16, "normal"))
+        turtle.goto(-240, 50)
+        turtle.write("Answering the Notes",
+                     align="center",
+                     font=("Arial", 20, "bold"))
+        turtle.goto(-90, -15)
+        turtle.write("Click on the button below with the English letters \n"
+                     "representing the following notes.", align="center",
+                     font=("Arial", 16, "normal"))
+        turtle.goto(280, -50)
+        turtle.write("C: Do, C#: Do+, D: Re, \nEb: Me-, E: Me, F: Fa,\n"
+                     "F#: F+, G: Sol, Ab: La-, \nA: La, Bb: Te-, B: T", align="center",
+                     font=("Arial", 16, "normal"))
+        turtle.goto(50, -225)
+        turtle.write("The symbols #/b or +/- are written for understanding. \n"
+                     "Denotes a higher or lower sound. Normally every sound is separated by 2 semi tones,\n"
+                     "for example the sounds C and D are separated by 2 semi tones.\n"
+                     "The #/b symbol increases or decreases the pitch of the sound by one semi tone.\n "
+                     "The # symbol means that the sound is a half a tone higher.\n"
+                     "Conversely, the symbol b means that the sound is a half tone lower.", align="center",
+                     font=("Arial", 16, "normal"))
 
+        turtle.goto(0, -280)
+        turtle.write("Press 'M' to return to the menu.", align="center", font=("Arial", 18, "normal"))
+        turtle.goto(0, -330)
+        turtle.write("Press 'N' to return to the all instruction page.", align="center", font=("Arial", 18, "normal"))
+        turtle.onkey(self.show_menu, "m")
+        turtle.onkey(self.show_instructions, "n")
+        turtle.listen()
+
+    def show_intervals_instruction(self):
+        self.clear_binding()
+        turtle.clear()
+        turtle.penup()
+        turtle.hideturtle()
+        turtle.goto(0, 325)
+        turtle.write("Intervals Instructions", align="center", font=("Arial", 24, "bold"))
+        turtle.goto(-300, 275)
+        turtle.write("What are Intervals?", align="center",
+                     font=("Arial", 20, "bold"))
+        turtle.goto(25, 120)
+        turtle.write("- An interval is the distance between two musical notes.\n"
+                     "- In simple terms, it describes how far apart the pitches of two notes are.\n"
+                     "- The game focuses on these three intervals:\n"
+                     "   - Major 3rd: A happy and bright sound. Example: C to E (Do to Mi).\n"
+                     "   - Perfect 5th: A strong and balanced sound. Example: C to G (Do to Sol).\n"
+                     "   - Octave: The same note, but one higher or lower in pitch. Example: C to C (Do to Do).", align="center",
+                     font=("Arial", 16, "normal"))
+        turtle.goto(-345, 80)
+        turtle.write(" How to Play", align="center",
+                     font=("Arial", 20, "bold"))
         turtle.goto(0, -200)
+        turtle.write("1.Listen to the Notes:\n"
+                     "   - Two balls will be released in the box.\n"
+                     "   - When the balls collide or bounce against walls, they will play two notes.\n"
+                     "2.Identify the Interval:\n"
+                     "   - Pay attention to the relationship between the two notes.\n"
+                     "   - Decide whether the interval is: Major 3rd, Perfect 5th, Octave\n"
+                     "3.Submit Your Answer:\n"
+                     "   - After the notes are played, choose the correct interval using the options provided.\n"
+                     "4.Scoring System:\n"
+                     "   - You earn points for each correct answer.\n", align="center",
+                     font=("Arial", 16, "normal"))
+
+        turtle.goto(0, -250)
+        turtle.write("Press 'M' to return to the menu.", align="center", font=("Arial", 18, "normal"))
+        turtle.goto(0, -300)
+        turtle.write("Press 'N' to return to the all instruction page.", align="center", font=("Arial", 18, "normal"))
+        turtle.onkey(self.show_menu, "m")
+        turtle.onkey(self.show_instructions, "n")
+        turtle.listen()
+
+    def show_instructions(self):
+        self.clear_binding()
+        self.on_menu = False
+        turtle.clear()
+        turtle.penup()
+        turtle.hideturtle()
+        turtle.goto(0, 150)
+        turtle.write("Instructions", align="center", font=("Arial", 24, "bold"))
+        turtle.goto(0, 105)
+        turtle.write("What game mode do you want to learn?", align="center",
+                     font=("Arial", 18, "normal"))
+        turtle.goto(0, 50)
+        turtle.write("A) Perfect Pitch", align="center",
+                     font=("Arial", 18, "normal"))
+        turtle.goto(-23, -5)
+        turtle.write("B) Intervals", align="center",
+                     font=("Arial", 18, "normal"))
+        turtle.goto(0, -60)
+        turtle.write("Press A or B button on your keyboard.", align="center",
+                     font=("Arial", 18, "normal"))
+        turtle.goto(0, -100)
         turtle.write("Press 'M' to return to the menu.", align="center", font=("Arial", 18, "normal"))
         turtle.onkey(self.show_menu, "m")
+        turtle.onkey(self.show_perfect_pitch_instructions, "a")
+        turtle.onkey(self.show_intervals_instruction, "b")
         turtle.listen()
 
     def show_menu(self):
+        self.clear_binding()
         turtle.clear()
         turtle.tracer(0)
         turtle.penup()
@@ -105,21 +232,26 @@ class Menu:
         turtle.goto(-350, 350)
         turtle.color("black")
         turtle.write(f"Stage Clear: {self.stage_clear}", align="center", font=("Arial", 16, "normal"))
+        turtle.goto(-340, 315)
+        turtle.write(f"Intervals Stage Clear: {self.intervals_stage_clear}", align="center", font=("Arial", 16, "normal"))
         turtle.goto(350, 350)
         turtle.write(f"Coins: {self.currency}", align="center", font=("Arial", 16, "normal"))
 
-        turtle.goto(0, 200)
-        turtle.write("Main Menu", align="center", font=("Arial", 24, "bold"))
         turtle.goto(0, 150)
-        turtle.write("1: Start Game", align="center", font=("Arial", 18, "normal"))
-        turtle.goto(0, 100)
-        turtle.write("2: Instructions", align="center", font=("Arial", 18, "normal"))
-        turtle.goto(0, 50)
+        turtle.write("Main Menu", align="center", font=("Arial", 24, "bold"))
+        turtle.goto(0, 90)
+        turtle.write("1: Start Perfect Pitch Game", align="center", font=("Arial", 18, "normal"))
+        turtle.goto(-23, 40)
+        turtle.write("2: Start Intervals Game", align="center", font=("Arial", 18, "normal"))
+        turtle.goto(-70, -10)
+        turtle.write("3: Instructions", align="center", font=("Arial", 18, "normal"))
+        turtle.goto(0, -60)
         turtle.write("Press the corresponding number.", align="center", font=("Arial", 18, "normal"))
         turtle.update()
 
         turtle.onkey(self.start_game, "1")
-        turtle.onkey(self.show_instructions, "2")
+        turtle.onkey(self.start_intervals_game, "2")
+        turtle.onkey(self.show_instructions, "3")
         turtle.listen()
 
 if __name__ == "__main__":
