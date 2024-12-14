@@ -35,7 +35,7 @@ class Menu:
             self.stage_clear += 1
 
     def random_num_balls(self):
-        if self.stage_clear <= 2:
+        if self.stage_clear+1 <= 2:
             self.num_balls = random.randint(1, 3)
         elif self.stage_clear > 2 and self.stage_clear <= 5:
             self.num_balls = random.randint(2, 5)
@@ -43,12 +43,18 @@ class Menu:
             self.num_balls = random.randint(3, 10)
 
     def consider_level(self):
-        if self.stage_clear <= 2:
+        if self.stage_clear+1 <= 2:
             self.level = 1
-        elif self.stage_clear > 2 and self.stage_clear <= 5:
+        elif self.stage_clear+1 > 2 and self.stage_clear+1 <= 5:
             self.level = 2
-        else:
+        elif self.stage_clear+1 > 5 and self.stage_clear+1 <= 7:
             self.level = 3
+        elif self.stage_clear+1 > 7 and self.stage_clear+1 <= 10:
+            self.level = 4
+        elif self.stage_clear+1 > 10 and self.stage_clear+1 <= 13:
+            self.level = 5
+        else:
+            self.level = 6
 
     def start_game(self):
         self.consider_level()

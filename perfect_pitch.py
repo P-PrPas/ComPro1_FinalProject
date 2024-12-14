@@ -12,6 +12,7 @@ class PerfectPitch:
     def __init__(self, num_balls, level, stage):
         self.num_balls = num_balls
         self.level = level # level 1 = C major scale, level 2 = Chromatics scale, level 3 = Chromatics scale and octave
+                           # level 4 = level 1 + Blind, level 5 = level 2 + Blind, level 6 = level 3 + Blind
         self.stage = stage + 1
         self.ball_list = []
         self.status_message = ""
@@ -124,9 +125,9 @@ class PerfectPitch:
         return self.game_result
 
     def level_checking(self):
-        if self.level == 1:
+        if self.level == 1 or self.level == 4:
             return [0, 2, 4, 5, 7, 9, 11]
-        elif self.level == 2:
+        elif self.level == 2 or self.level == 5:
             return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
         else:
             return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
@@ -143,30 +144,36 @@ class PerfectPitch:
             y = 0.0
             vx = 10 * random.uniform(-1.0, 1.0)
             vy = 10 * random.uniform(-1.0, 1.0)
-            ball = harmonic_ball.Ball(radius, x, y, vx, vy, ball_data["color"], ball_data["note"], ball_data["label"])
+            if self.level <= 3:
+                ball = harmonic_ball.Ball(radius, x, y, vx, vy, ball_data["color"], ball_data["note"],
+                                          ball_data["label"])
+            else:
+                ball = harmonic_ball.Ball(radius, x, y, vx, vy, (100,100,100), ball_data["note"],
+                                          ball_data["label"])
             self.ball_list.append(ball)
         self.answer = len(self.ball_list)
     def create_buttons(self):
         button_width = 50
         button_height = 30
-        if self.level == 1:
+        if self.level == 1 or self.level == 4:
             gap = 40
             start_x = -self.canvas_width + 185 - gap
             start_y = -self.canvas_height - gap - 13
+            available_pad = self.available_note
         else:
             gap = 25
             start_x = -self.canvas_width - gap / 2
             start_y = -self.canvas_height - 2 * gap
-        if self.level == 3:
             available_pad = self.available_note[:12]
-        else:
-            available_pad = self.available_note
         for i, note in enumerate(available_pad):
             x = start_x + i * (button_width + gap)
             button = Button(x, start_y, button_width, button_height, note["label"], note["color"],
                             self.handle_button_click)
             button.onclick(lambda x, y, note: self.handle_button_click(note))
             self.button_list.append(button)
+        print(f"Level {self.level}")
+        for i in available_pad:
+            print(i)
 
     def handle_button_click(self, color):
         if color in [ball.get_color() for ball in self.ball_list]:
@@ -274,6 +281,7 @@ class PerfectPitch:
             self.__predict(self.ball_list[i])
         heapq.heappush(self.pq, event.Event(0, None, None))
         while not self.game_end:
+            turtle.tracer(0.1)
             e = heapq.heappop(self.pq)
             if not e.is_valid():
                 continue
