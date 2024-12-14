@@ -47,6 +47,12 @@ class Ball:
         self.stop_sound()
         self.is_answer = True
 
+    def increase_speed(self, dx, dy, max_speed=5):
+        # Increase speed with limit
+        dx = min(dx * 1.1, max_speed) if dx > 0 else max(dx * 1.1, -max_speed)
+        dy = min(dy * 1.1, max_speed) if dy > 0 else max(dy * 1.1, -max_speed)
+        return dx, dy
+
     # Code from AJ.Paruj
     def draw(self):
         turtle.penup()
@@ -60,11 +66,13 @@ class Ball:
 
     def bounce_off_vertical_wall(self):
         self.vx = -self.vx
+        self.vx, self.vy = self.increase_speed(self.vx, self.vy)
         self.count += 1
         self.play_sound()
 
     def bounce_off_horizontal_wall(self):
         self.vy = -self.vy
+        self.vx, self.vy = self.increase_speed(self.vx, self.vy)
         self.count += 1
         self.play_sound()
 
@@ -88,6 +96,9 @@ class Ball:
         self.vy += fy / self.mass
         that.vx -= fx / that.mass
         that.vy -= fy / that.mass
+
+        self.vx, self.vy = self.increase_speed(self.vx, self.vy)
+        that.vx, that.vy = that.increase_speed(that.vx, that.vy)
 
         # update collision counts
         self.count += 1
