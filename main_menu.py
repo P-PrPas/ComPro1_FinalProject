@@ -1,5 +1,6 @@
 import harmonic_ball
 import turtle
+from turtle import Screen
 import perfect_pitch
 import intervals
 import random
@@ -12,11 +13,13 @@ class Menu:
     def __init__(self):
         self.canvas_width = turtle.screensize()[0]
         self.canvas_height = turtle.screensize()[1]
+        self.screen = Screen()
         self.currency = 0
         self.stage_clear = 0
         self.intervals_stage_clear = 0
         self.level = 1
         self.num_balls = 1
+        self.button_list = []
         self.button_list = []
 
     def get_currency(self):
@@ -87,6 +90,7 @@ class Menu:
         turtle.onkey(None, "b")
 
     def start_game(self):
+        pygame.mixer.stop()
         self.clear_binding()
         self.consider_level("Perfect Pitch")
         self.random_num_balls()
@@ -94,8 +98,9 @@ class Menu:
         game_result = my_Game.run()
         self.update_currency_and_stage(game_result, "Perfect Pitch")
         self.show_menu()
-        
+
     def start_intervals_game(self):
+        pygame.mixer.stop()
         self.clear_binding()
         self.consider_level("Intervals")
         self.random_num_balls()
@@ -196,6 +201,47 @@ class Menu:
         turtle.onkey(self.show_instructions, "n")
         turtle.listen()
 
+    def show_level_detail(self):
+        self.clear_binding()
+        turtle.clear()
+        turtle.penup()
+        turtle.hideturtle()
+        turtle.goto(0, 325)
+        turtle.write("Level Detail", align="center", font=("Arial", 24, "bold"))
+        turtle.goto(-200, 275)
+        turtle.write("In this game we will have 6 levels.", align="center", font=("Arial", 20, "normal"))
+        turtle.goto(15, -50)
+        turtle.write("   Level 1 (Stage 1 - 2): At this level, there are only 8 notes you will hear\n"
+                     "starting from Do - Te according to the C Major scale.\n\n"
+                     "   Level 2 (Stage 3 - 5): In this scale, there are 12 notes you will hear,\n"
+                     "with #/b added according to the Chromatics scale.\n\n"
+                     "   Level 3 (Stage 5 - 7): At this level, the notes you hear will have the same 12 notes,\n"
+                     "but with the addition of the next octave of that sound. \n"
+                     "If counted together, there would be 24 notes at this level.\n\n"
+                     "   Level 4 (Stage 7 - 10): This level has the same number of sounds as the first level,\n"
+                     "but the color of the ball will be covered. \n",
+                     align="center",
+                     font=("Arial", 16, "normal"))
+        turtle.goto(15, -120)
+        turtle.color("red")
+        turtle.write("*Anyone who has gotten to this point by memorizing colors must have used their ears*\n\n",align="center",
+                     font=("Arial", 16, "normal"))
+        turtle.goto(30, -260)
+        turtle.color("black")
+        turtle.write("   Level 5 (Stage 10 - 13): The number of notes in this level is the same as in level 2,\n"
+                     "but the colors of the balls are muted.\n\n"
+                     "   Level 6 (Stage 13 and up): The number of notes in this level is the same as in level 3,\n"
+                     "but the colors of the balls are muted.\n\n",align="center",
+                     font=("Arial", 16, "normal"))
+        turtle.goto(0, -300)
+        turtle.write("Press 'M' to return to the menu.", align="center", font=("Arial", 18, "normal"))
+        turtle.goto(0, -350)
+        turtle.write("Press 'N' to return to the all instruction page.", align="center", font=("Arial", 18, "normal"))
+        turtle.onkey(self.show_menu, "m")
+        turtle.onkey(self.show_instructions, "n")
+        turtle.listen()
+
+
     def show_instructions(self):
         self.clear_binding()
         self.on_menu = False
@@ -213,19 +259,25 @@ class Menu:
         turtle.goto(-23, -5)
         turtle.write("B) Intervals", align="center",
                      font=("Arial", 18, "normal"))
-        turtle.goto(0, -60)
-        turtle.write("Press A or B button on your keyboard.", align="center",
+        turtle.goto(-5, -60)
+        turtle.write("C) Level Detail", align="center",
                      font=("Arial", 18, "normal"))
-        turtle.goto(0, -100)
+        turtle.goto(0, -110)
+        turtle.write("Press A, B or C button on your keyboard.", align="center",
+                     font=("Arial", 18, "normal"))
+        turtle.goto(0, -150)
         turtle.write("Press 'M' to return to the menu.", align="center", font=("Arial", 18, "normal"))
         turtle.onkey(self.show_menu, "m")
         turtle.onkey(self.show_perfect_pitch_instructions, "a")
         turtle.onkey(self.show_intervals_instruction, "b")
+        turtle.onkey(self.show_level_detail, "c")
         turtle.listen()
 
     def show_menu(self):
+        pygame.mixer.Sound("Sound/bg.wav").play()
         self.clear_binding()
         turtle.clear()
+        turtle.bgcolor("lightblue")
         turtle.tracer(0)
         turtle.penup()
         turtle.hideturtle()
@@ -238,7 +290,7 @@ class Menu:
         turtle.write(f"Coins: {self.currency}", align="center", font=("Arial", 16, "normal"))
 
         turtle.goto(0, 150)
-        turtle.write("Main Menu", align="center", font=("Arial", 24, "bold"))
+        turtle.write("Harmonic Bounce", align="center", font=("Arial", 24, "bold"))
         turtle.goto(0, 90)
         turtle.write("1: Start Perfect Pitch Game", align="center", font=("Arial", 18, "normal"))
         turtle.goto(-23, 40)

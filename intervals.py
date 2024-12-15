@@ -5,6 +5,7 @@ import heapq
 import event
 from button import Button
 import pygame.midi
+import pygame
 import time
 
 
@@ -207,6 +208,7 @@ class Intervals:
                 turtle.goto(0, 0)
                 turtle.color("red")
                 turtle.write("Game Over!!", align="center", font=("Arial", 40, "bold"))
+                pygame.mixer.Sound("Sound/Game Over.wav").play()
                 turtle.update()
                 time.sleep(2)
         self.status_message_time = time.time()
@@ -262,6 +264,7 @@ class Intervals:
             turtle.penup()
             turtle.goto(0, self.canvas_height // 2 - 60)
             turtle.color("red" if self.status_message == "Wrong!" else "green")
+            pygame.mixer.Sound("Sound/Incorrect.wav" if self.status_message == "Wrong!" else "Sound/Correct").play()
             turtle.write(self.status_message, align="center", font=("Arial", 14, "bold"))
 
 
@@ -319,6 +322,7 @@ class Intervals:
                 turtle.goto(0, 0)
                 turtle.color("black")
                 turtle.write("You Win!!", align="center", font=("Arial", 40, "bold"))
+                pygame.mixer.Sound("Sound/Win.wav").play()
                 turtle.update()
                 time.sleep(2)
 

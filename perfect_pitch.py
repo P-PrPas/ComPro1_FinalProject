@@ -201,8 +201,9 @@ class PerfectPitch:
                 turtle.goto(0, 0)
                 turtle.color("red")
                 turtle.write("Game Over!!", align="center", font=("Arial", 40, "bold"))
+                pygame.mixer.Sound("Sound/Game Over.wav").play()
                 turtle.update()
-                time.sleep(2)
+                time.sleep(6)
         self.status_message_time = time.time()
 
     def check_click(self, x, y):
@@ -256,6 +257,7 @@ class PerfectPitch:
             turtle.penup()
             turtle.goto(0, self.canvas_height // 2 - 60)
             turtle.color("red" if self.status_message == "Wrong!" else "green")
+            pygame.mixer.Sound("Sound/Incorrect.wav" if self.status_message == "Wrong!" else "Sound/Correct.wav").play()
             turtle.write(self.status_message, align="center", font=("Arial", 14, "bold"))
 
 
@@ -313,6 +315,7 @@ class PerfectPitch:
                 turtle.goto(0, 0)
                 turtle.color("black")
                 turtle.write("You Win!!", align="center", font=("Arial", 40, "bold"))
+                pygame.mixer.Sound("Sound/Win.wav").play()
                 turtle.update()
                 time.sleep(2)
 

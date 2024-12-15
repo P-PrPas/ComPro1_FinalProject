@@ -1,3 +1,4 @@
+import time
 import turtle
 
 class Button:
@@ -9,6 +10,7 @@ class Button:
         self.label = label
         self.note_color = note_color
         self.callback = callback
+        self.pressed = False
 
     @property
     def color(self):
@@ -23,7 +25,7 @@ class Button:
         turtle.goto(self.x - self.width / 2, self.y - self.height / 2)
         turtle.pendown()
         turtle.begin_fill()
-        turtle.color("lightgray")
+        turtle.color("white")
         for _ in range(2):
             turtle.forward(self.width)
             turtle.left(90)
