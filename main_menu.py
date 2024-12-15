@@ -233,7 +233,14 @@ class Menu:
                      "   Level 6 (Stage 13 and up): The number of notes in this level is the same as in level 3,\n"
                      "but the colors of the balls are muted.\n\n",align="center",
                      font=("Arial", 16, "normal"))
+        turtle.goto(250, -250)
+        turtle.color("red")
+        turtle.write("    ***If you can make it to Level 6,\n"
+                     "your ears might be turning golden.***",
+                     align="center",
+                     font=("Arial", 14, "normal"))
         turtle.goto(0, -300)
+        turtle.color("black")
         turtle.write("Press 'M' to return to the menu.", align="center", font=("Arial", 18, "normal"))
         turtle.goto(0, -350)
         turtle.write("Press 'N' to return to the all instruction page.", align="center", font=("Arial", 18, "normal"))
