@@ -1,11 +1,4 @@
-import harmonic_ball
 import turtle
-import perfect_pitch
-import random
-import heapq
-import event
-import pygame.midi
-import time
 import main_menu
 
 class GameLauncher:

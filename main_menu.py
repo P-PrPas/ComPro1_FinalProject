@@ -1,13 +1,10 @@
-import harmonic_ball
 import turtle
 from turtle import Screen
 import perfect_pitch
 import intervals
 import random
-import heapq
-import event
 import pygame.midi
-import time
+
 
 class Menu:
     def __init__(self):

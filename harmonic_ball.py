@@ -1,9 +1,7 @@
 import pygame
 import pygame.midi
-import threading
 import turtle
 import math
-import time
 
 
 pygame.init()

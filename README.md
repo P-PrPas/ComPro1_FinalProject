@@ -1,9 +1,10 @@
-# ComPro1_FinalProject
-Project Name: Harmonic Bounce
+# Project Name: Harmonic Bounce
 
-Description: This game will help you practice ear training so that you can effectively discriminate between notes.
+## Project Description
 
-Game Mode: 1.Perfect Pitch 2.Intervals
+### This game will help you practice ear training so that you can effectively discriminate between notes.
+
+### Game Mode: 1.Perfect Pitch 2.Intervals
 
 ## Perfect Pitch
 In this mode, it helps practice in distinguishing the sound of each note.
@@ -36,3 +37,14 @@ If you can't figure it out, try observing the difference in sounds. If you feel 
 
 If you want to study more about intervals, you can study at https://www.musicca.com/intervals
 
+# How to install and run the project
+The main libraries for this project are turtle and pygame. Make sure you have them installed.
+
+If you installed everything fine, you can start the game by running the launcher.py file.
+
+After you enter, you will see a menu page. You can observe the descriptions on each page and press the keys on your keyboard to enter the pages.
+
+## Precautions
+To play this game Please change the keyboard language to English.
+
+In both Perfect Pitch and Intervals games, answering questions involves **pressing a button**. It's not a keyboard press.
