@@ -56,13 +56,53 @@ class Ball:
 
     # Code from AJ.Paruj
     def draw(self):
+        shadow_offset_x = 5
+        shadow_offset_y = -5
+        shadow_size = self.size * 1.2
+
+        # Draw shadow
+        shadow_x_offset = 0
+        shadow_y_offset = -self.size * 0.3
+        turtle.penup()
+        turtle.goto(self.x + shadow_x_offset, self.y + shadow_y_offset)
+        turtle.pendown()
+        turtle.color("#777777")
+        turtle.begin_fill()
+        for _ in range(2):
+            turtle.circle(self.size * 0.8, 90)
+            turtle.circle(self.size * 0.6, 90)
+        turtle.end_fill()
+
+        # Draw border
+        turtle.penup()
+        turtle.goto(self.x, self.y)
+        turtle.pendown()
+        turtle.color("black")
+        turtle.pensize(12)
+        turtle.circle(self.size + 2)
+
+        # Draw ball
+        turtle.pensize(10)
         turtle.penup()
         turtle.color(self.color)
         turtle.fillcolor(self.color)
-        turtle.goto(self.x, self.y - self.size)
+        turtle.goto(self.x, self.y)
         turtle.pendown()
         turtle.begin_fill()
         turtle.circle(self.size)
+        turtle.end_fill()
+
+        # Draw highlight
+        highlight_x_offset = -self.size * 0.4
+        highlight_y_offset = self.size * 0.6
+        turtle.penup()
+        turtle.goto(self.x + highlight_x_offset, self.y + highlight_y_offset)
+        turtle.pendown()
+        turtle.color("white")
+        turtle.begin_fill()
+        for _ in range(2):
+            turtle.circle(self.size * 0.15, 90)
+            turtle.circle(self.size * 0.08, 90)
         turtle.end_fill()
 
     def bounce_off_vertical_wall(self):
