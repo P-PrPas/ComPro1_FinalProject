@@ -255,30 +255,50 @@ class Menu:
         turtle.clear()
         turtle.penup()
         turtle.hideturtle()
-        turtle.goto(0, 150)
-        turtle.write("Instructions", align="center", font=("Arial", 24, "bold"))
-        turtle.goto(0, 105)
-        turtle.write("What game mode do you want to learn?", align="center",
-                     font=("Arial", 18, "normal"))
-        turtle.goto(0, 50)
-        turtle.write("A) Perfect Pitch", align="center",
-                     font=("Arial", 18, "normal"))
-        turtle.goto(-23, -5)
-        turtle.write("B) Intervals", align="center",
-                     font=("Arial", 18, "normal"))
-        turtle.goto(-5, -60)
-        turtle.write("C) Level Detail", align="center",
-                     font=("Arial", 18, "normal"))
-        turtle.goto(0, -110)
-        turtle.write("Press A, B or C button on your keyboard.", align="center",
-                     font=("Arial", 18, "normal"))
-        turtle.goto(0, -150)
-        turtle.write("Press 'M' to return to the menu.", align="center", font=("Arial", 18, "normal"))
+
+        self.draw_shadow_text(0, 300, "Instructions", 46, "white", "purple")
+
+        self.animate_text(0, 210, "What game mode do you want to learn?", "white")
+        self.animate_text(0, 120, "A) Perfect Pitch", "white")
+        self.animate_text(-28, 30, "B) Intervals", "white")
+        self.animate_text(-5, -60, "C) Level Detail", "white")
+        self.animate_text(0, -160, "Press A, B or C button on your keyboard.", "white")
+
+        turtle.tracer(0)
         turtle.onkey(self.show_menu, "m")
         turtle.onkey(self.show_perfect_pitch_instructions, "a")
         turtle.onkey(self.show_intervals_instruction, "b")
         turtle.onkey(self.show_level_detail, "c")
         turtle.listen()
+
+    def animate_text(self, x, y, text, color):
+        ani_text = turtle.Turtle()
+        ani_text.hideturtle()
+        ani_text.penup()
+        turtle.penup()
+        for i in range(0, 10):
+            ani_text._tracer(1)
+            ani_text.goto(x, y + i)
+            ani_text.color(color)
+            ani_text.write(text, align="center", font=("Arial", 24, "bold"))
+            ani_text.clear()
+        turtle.goto(x, y)
+        turtle.write(text, align="center", font=("Arial", 24, "bold"))
+
+    def draw_shadow_text(self,x, y, text, size, text_color, shadow_color):
+        # Draw Shadow
+        turtle.penup()
+        turtle.goto(x + 3, y - 3)
+        turtle.pendown()
+        turtle.color(shadow_color)
+        turtle.write(text, align="center", font=("Arial", 46, "bold"))
+
+        # Draw Text
+        turtle.penup()
+        turtle.goto(x, y)
+        turtle.pendown()
+        turtle.color(text_color)
+        turtle.write(text, align="center", font=("Arial", 46, "bold"))
 
     def show_menu(self):
         pygame.mixer.stop()
@@ -298,18 +318,17 @@ class Menu:
         turtle.goto(350, 350)
         turtle.write(f"Coins: {self.currency}", align="center", font=("Arial", 16, "normal"))
 
-        turtle.goto(0, 150)
-        turtle.write("Harmonic Bounce", align="center", font=("Arial", 24, "bold"))
-        turtle.goto(0, 90)
-        turtle.write("1: Start Perfect Pitch Game", align="center", font=("Arial", 18, "normal"))
-        turtle.goto(-23, 40)
-        turtle.write("2: Start Intervals Game", align="center", font=("Arial", 18, "normal"))
-        turtle.goto(-70, -10)
-        turtle.write("3: Instructions", align="center", font=("Arial", 18, "normal"))
-        turtle.goto(0, -60)
-        turtle.write("Press the corresponding number.", align="center", font=("Arial", 18, "normal"))
-        turtle.update()
+        self.draw_shadow_text(0, 180, "Harmonic Bounce", 46, "white", "purple")
 
+        # Draw Option
+
+        self.animate_text(0, 90, "1: Start Perfect Pitch Game", "white")
+        self.animate_text(-30, 0, "2: Start Intervals Game", "white")
+        self.animate_text(-92, -90, "3: Instructions", "white")
+
+        self.animate_text(0, -200, "Press the corresponding number.", "white")
+
+        turtle.tracer(0)
         turtle.onkey(self.start_game, "1")
         turtle.onkey(self.start_intervals_game, "2")
         turtle.onkey(self.show_instructions, "3")
