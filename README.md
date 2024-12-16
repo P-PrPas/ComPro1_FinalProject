@@ -48,3 +48,7 @@ After you enter, you will see a menu page. You can observe the descriptions on e
 To play this game Please change the keyboard language to English.
 
 In both Perfect Pitch and Intervals games, answering questions involves **pressing a button**. It's not a keyboard press.
+
+# Rate your project sophistication level (if you do not rate this yourself, we will put it at the low end)
+
+90
