@@ -20,7 +20,6 @@ class Menu:
         self.level = 1
         self.num_balls = 1
         self.button_list = []
-        self.button_list = []
 
     def get_currency(self):
         return self.currency
@@ -28,10 +27,10 @@ class Menu:
     def get_stage_clear(self):
         return self.stage_clear
 
-    def get_currency(self, new_currency):
+    def set_currency(self, new_currency):
         self.currency = new_currency
 
-    def get_stage_clear(self, new_stage_clear):
+    def set_stage_clear(self, new_stage_clear):
         self.stage_clear = new_stage_clear
 
     def update_currency_and_stage(self, result, mode):

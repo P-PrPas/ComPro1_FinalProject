@@ -40,5 +40,5 @@ class Button:
         turtle.write(self.label, align="center", font=("Arial", 12, "bold"))
 
     def onclick(self, func):
-        turtle.goto(self.x, self.y)  # Reset turtle position
-        turtle.onclick(func)
+        screen = turtle.Screen()
+        screen.onclick(lambda x, y: func() if self.is_clicked(x, y) else None)
