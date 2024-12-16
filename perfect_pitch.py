@@ -243,8 +243,12 @@ class PerfectPitch:
         # Game Status (Score and Live)
         turtle.penup()
         turtle.goto(-self.canvas_width, self.canvas_height + 40)
-        turtle.color("white")
-        turtle.write(f"Score: {self.score}   Lives: {self.lives}", font=("Arial", 16, "bold"))
+        turtle.color("yellow")
+        heart = "❤️"
+        turtle.write(f"Score: {self.score}", font=("Arial", 16, "bold"))
+        turtle.goto(-self.canvas_width + 150, self.canvas_height + 40)
+        turtle.color("red")
+        turtle.write(f"Live:   {heart*self.lives}", font=("Arial", 16, "bold"))
 
         # Draw the Stage
         turtle.penup()
@@ -257,7 +261,9 @@ class PerfectPitch:
             turtle.penup()
             turtle.goto(0, self.canvas_height // 2 - 60)
             turtle.color("red" if self.status_message == "Wrong!" else "green")
-            pygame.mixer.Sound("Sound/Incorrect.wav" if self.status_message == "Wrong!" else "Sound/Correct.wav").play()
+            answer_sound = pygame.mixer.Sound("Sound/Incorrect.wav" if self.status_message == "Wrong!" else "Sound/Correct.wav")
+            answer_sound.set_volume(0.1) if self.status_message == "Wrong!" else answer_sound.set_volume(0.5)
+            answer_sound.play()
             turtle.write(self.status_message, align="center", font=("Arial", 14, "bold"))
 
 

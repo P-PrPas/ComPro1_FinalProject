@@ -250,8 +250,12 @@ class Intervals:
         # Game Status (Score and Live)
         turtle.penup()
         turtle.goto(-self.canvas_width, self.canvas_height + 40)
-        turtle.color("white")
-        turtle.write(f"Score: {self.score}   Lives: {self.lives}", font=("Arial", 16, "bold"))
+        turtle.color("yellow")
+        heart = "❤️"
+        turtle.write(f"Score: {self.score}", font=("Arial", 16, "bold"))
+        turtle.goto(-self.canvas_width + 150, self.canvas_height + 40)
+        turtle.color("red")
+        turtle.write(f"Live:   {heart * self.lives}", font=("Arial", 16, "bold"))
 
         # Draw the Stage
         turtle.penup()

@@ -302,7 +302,9 @@ class Menu:
 
     def show_menu(self):
         pygame.mixer.stop()
-        pygame.mixer.Sound("Sound/bg.wav").play(-1)
+        bg_sound = pygame.mixer.Sound("Sound/bg.wav")
+        bg_sound.set_volume(0.5)
+        bg_sound.play(-1)
         turtle.bgpic("Image/bg.gif")
         self.clear_binding()
         turtle.clear()
@@ -319,12 +321,15 @@ class Menu:
         turtle.write(f"Coins: {self.currency}", align="center", font=("Arial", 16, "normal"))
 
         self.draw_shadow_text(0, 180, "Harmonic Bounce", 46, "white", "purple")
+        turtle.penup()
+        turtle.goto(300, 260)
+        turtle.write("( っ'-')╮ =͟͟͞͞🏀", align="center", font=("Arial", 24, "bold"))
 
         # Draw Option
 
-        self.animate_text(0, 90, "1: Start Perfect Pitch Game", "white")
-        self.animate_text(-30, 0, "2: Start Intervals Game", "white")
-        self.animate_text(-92, -90, "3: Instructions", "white")
+        self.animate_text(0, 90, "1: Start Perfect Pitch Game 🦻", "white")
+        self.animate_text(-30, 0, "2: Start Intervals Game 🎵", "white")
+        self.animate_text(-70, -90, "3: Instructions 🗒️", "white")
 
         self.animate_text(0, -200, "Press the corresponding number.", "white")
 
