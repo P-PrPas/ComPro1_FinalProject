@@ -210,7 +210,7 @@ class Intervals:
                 turtle.write("Game Over!!", align="center", font=("Arial", 40, "bold"))
                 pygame.mixer.Sound("Sound/Game Over.wav").play()
                 turtle.update()
-                time.sleep(2)
+                time.sleep(6)
         self.status_message_time = time.time()
 
     def check_click(self, x, y):
@@ -239,7 +239,7 @@ class Intervals:
         turtle.goto(-self.canvas_width, -self.canvas_height)
         turtle.pensize(10)
         turtle.pendown()
-        turtle.color((0, 0, 0))
+        turtle.color(("white"))
         for i in range(2):
             turtle.forward(2*self.canvas_width)
             turtle.left(90)
@@ -250,13 +250,13 @@ class Intervals:
         # Game Status (Score and Live)
         turtle.penup()
         turtle.goto(-self.canvas_width, self.canvas_height + 40)
-        turtle.color("black")
+        turtle.color("white")
         turtle.write(f"Score: {self.score}   Lives: {self.lives}", font=("Arial", 16, "bold"))
 
         # Draw the Stage
         turtle.penup()
         turtle.goto(self.canvas_width - 100, self.canvas_height + 40)
-        turtle.color("black")
+        turtle.color("white")
         turtle.write(f"Stage: {self.stage}", font=("Arial", 16, "bold"))
 
         # Status of Answer (Correct or Wrong)
@@ -320,7 +320,7 @@ class Intervals:
                 turtle.clear()
                 turtle.penup()
                 turtle.goto(0, 0)
-                turtle.color("black")
+                turtle.color("white")
                 turtle.write("You Win!!", align="center", font=("Arial", 40, "bold"))
                 pygame.mixer.Sound("Sound/Win.wav").play()
                 turtle.update()

@@ -227,7 +227,7 @@ class Menu:
         turtle.write("*Anyone who has gotten to this point by memorizing colors must have used their ears*\n\n",align="center",
                      font=("Arial", 16, "normal"))
         turtle.goto(30, -260)
-        turtle.color("black")
+        turtle.color("white")
         turtle.write("   Level 5 (Stage 10 - 13): The number of notes in this level is the same as in level 2,\n"
                      "but the colors of the balls are muted.\n\n"
                      "   Level 6 (Stage 13 and up): The number of notes in this level is the same as in level 3,\n"
@@ -240,7 +240,7 @@ class Menu:
                      align="center",
                      font=("Arial", 14, "normal"))
         turtle.goto(0, -300)
-        turtle.color("black")
+        turtle.color("white")
         turtle.write("Press 'M' to return to the menu.", align="center", font=("Arial", 18, "normal"))
         turtle.goto(0, -350)
         turtle.write("Press 'N' to return to the all instruction page.", align="center", font=("Arial", 18, "normal"))
@@ -281,7 +281,9 @@ class Menu:
         turtle.listen()
 
     def show_menu(self):
-        pygame.mixer.Sound("Sound/bg.wav").play()
+        pygame.mixer.stop()
+        pygame.mixer.Sound("Sound/bg.wav").play(-1)
+        turtle.bgpic("Image/bg.gif")
         self.clear_binding()
         turtle.clear()
         turtle.bgcolor("lightblue")
@@ -289,7 +291,7 @@ class Menu:
         turtle.penup()
         turtle.hideturtle()
         turtle.goto(-350, 350)
-        turtle.color("black")
+        turtle.color("white")
         turtle.write(f"Stage Clear: {self.stage_clear}", align="center", font=("Arial", 16, "normal"))
         turtle.goto(-340, 315)
         turtle.write(f"Intervals Stage Clear: {self.intervals_stage_clear}", align="center", font=("Arial", 16, "normal"))

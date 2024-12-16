@@ -28,6 +28,7 @@ class Ball:
 
         # Load the sound file to the mixer
         self.sound = pygame.mixer.Sound(self.sound_file)
+        self.sound.set_volume(1.0)
         # We use the channel to solve the problem of the ball hitting the wall in rapid succession,
         # it does not make a sound.
         self.channel = pygame.mixer.find_channel()
